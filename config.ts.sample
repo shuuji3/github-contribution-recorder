@@ -1,0 +1,5 @@
+export const config = {
+  targetUser: 'your-github-username',
+  sinceDate: '2026-01-01', // ISO date string, empty for no limit
+  maxRepos: 50,      // 0 for no limit
+};
