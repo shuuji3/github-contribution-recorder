@@ -1,26 +1,34 @@
-import { getRepos, fetch } from './github.ts';
+import { getRepos, fetch } from './github.js';
 import { saveActivity, saveRepository } from './db.ts';
+import { config } from './config.ts';
 
-const repos = getRepos();
+const username = process.argv[2];
+if (!username || !config[username]) {
+    console.error(`Usage: ts-node main.ts <username>`);
+    console.error(`Available users: ${Object.keys(config).join(', ')}`);
+    process.exit(1);
+}
+
+const repos = getRepos(username);
 
 for (const repo of repos) {
     const [owner, name] = repo.fullName.split('/');
     saveRepository(repo.id, repo.fullName);
     console.log(`Syncing ${repo.fullName}...`);
 
-    const commits = fetch(owner, name, 'commits');
+    const commits = fetch(username, owner, name, 'commits', () => true);
     for (const commit of commits) {
         saveActivity(repo.id, 'commit', commit, commit.sha, commit.commit.author.date);
     }
-    const issues = fetch(owner, name, 'issues?state=all', (i: any) => !i.pull_request);
+    const issues = fetch(username, owner, name, 'issues?state=all', (i: any) => !i.pull_request);
     for (const issue of issues) {
         saveActivity(repo.id, 'issue', issue, issue.node_id, issue.created_at);
     }
-    const prs = fetch(owner, name, 'pulls?state=all');
+    const prs = fetch(username, owner, name, 'pulls?state=all', () => true);
     for (const pr of prs) {
         saveActivity(repo.id, 'pull_request', pr, pr.node_id, pr.created_at);
     }
-    const comments = fetch(owner, name, 'issues/comments');
+    const comments = fetch(username, owner, name, 'issues/comments', () => true);
     for (const comment of comments) {
         saveActivity(repo.id, 'issue_comment', comment, comment.node_id, comment.created_at);
     }

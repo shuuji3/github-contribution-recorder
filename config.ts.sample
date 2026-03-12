@@ -1,5 +1,8 @@
-export const config = {
-  targetUser: 'your-github-username',
-  sinceDate: '2026-01-01', // ISO date string, empty for no limit
-  maxRepos: 50,      // 0 for no limit
+type Config = Record<string, { sinceDate: string, maxRepos: number }>;
+
+export const config: Config = {
+  'your-github-username': {
+    sinceDate: '2026-01-01', // ISO date string (YYYY-MM-DD), empty for no limit
+    maxRepos: 50,      // 0 for no limit
+  },
 };
