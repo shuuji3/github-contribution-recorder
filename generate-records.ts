@@ -19,7 +19,11 @@ const repos = db.prepare('SELECT id, full_name FROM repositories').all() as {
 }[]
 const repoMap = new Map(repos.map((r) => [r.id, r.full_name]))
 
-const username = 'shuuji3'
+const username = process.argv[2]
+if (!username) {
+  console.error('Usage: node generate-records.ts <username>')
+  process.exit(1)
+}
 const activities = db.prepare('SELECT * FROM activities WHERE username = ?').all(username)
 
 
