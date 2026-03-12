@@ -1,6 +1,6 @@
-import Database from 'better-sqlite3';
+import Database from 'better-sqlite3'
 
-const db = new Database('github-contributions.db');
+const db = new Database('github-contributions.db')
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS repositories (
@@ -16,16 +16,22 @@ db.exec(`
     raw_data TEXT NOT NULL,
     FOREIGN KEY(repo_id) REFERENCES repositories(id)
   );
-`);
+`)
 
-export function saveActivity(repoId: string, type: string, activity: any, id: string, createdAt: string) {
-    db.prepare('INSERT OR REPLACE INTO activities (id, repo_id, type, created_at, raw_data) VALUES (?, ?, ?, ?, ?)').run(
-        id, repoId, type, createdAt, JSON.stringify(activity)
-    );
+export function saveActivity(
+  repoId: string,
+  type: string,
+  activity: any,
+  id: string,
+  createdAt: string
+) {
+  db.prepare(
+    'INSERT OR REPLACE INTO activities (id, repo_id, type, created_at, raw_data) VALUES (?, ?, ?, ?, ?)'
+  ).run(id, repoId, type, createdAt, JSON.stringify(activity))
 }
 
 export function saveRepository(id: string, fullName: string) {
-    db.prepare('INSERT OR REPLACE INTO repositories (id, full_name, last_synced_at) VALUES (?, ?, ?)').run(
-        id, fullName, new Date().toISOString()
-    );
+  db.prepare(
+    'INSERT OR REPLACE INTO repositories (id, full_name, last_synced_at) VALUES (?, ?, ?)'
+  ).run(id, fullName, new Date().toISOString())
 }
