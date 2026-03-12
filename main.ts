@@ -1,12 +1,12 @@
-import { getRepos, fetch } from './github.js'
+import { getRepos, fetch } from './github.ts'
 import { saveActivity, saveRepository } from './db.ts'
 import { config } from './config.ts'
 
 const username = process.argv[2]
-if (!username || !config[username]) {
-  console.error(`Usage: ts-node main.ts <username>`)
-  console.error(`Available users: ${Object.keys(config).join(', ')}`)
-  process.exit(1)
+if (username === '--help' || !username || !config[username]) {
+  console.log(`Usage: node main.ts <username>`)
+  console.log(`Available users: ${Object.keys(config).join(', ')}`)
+  process.exit(0)
 }
 
 const repos = getRepos(username)
