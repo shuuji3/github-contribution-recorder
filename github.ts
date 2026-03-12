@@ -29,8 +29,11 @@ export function fetch(
     return []
   }
   try {
+    const separator = endpoint.includes('?') ? '&' : '?'
     const items = JSON.parse(
-      execSync(`gh api repos/${owner}/${repo}/${endpoint}?per_page=100`, { encoding: 'utf8' })
+      execSync(`gh api repos/${owner}/${repo}/${endpoint}${separator}per_page=100`, {
+        encoding: 'utf8',
+      })
     )
     return items.filter((item: any) => {
       const date = item.created_at || (item.commit && item.commit.author && item.commit.author.date)
