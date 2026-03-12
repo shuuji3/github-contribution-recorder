@@ -22,9 +22,6 @@ const repoMap = new Map(repos.map((r) => [r.id, r.full_name]))
 const username = 'shuuji3'
 const activities = db.prepare('SELECT * FROM activities WHERE username = ?').all(username)
 
-if (fs.existsSync('records')) {
-  fs.rmSync('records', { recursive: true })
-}
 
 for (const activity of activities) {
   const data = JSON.parse(activity.raw_data)
