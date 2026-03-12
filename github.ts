@@ -23,7 +23,7 @@ export function fetch(
   endpoint: string,
   filter: (item: any) => boolean = () => true
 ) {
-  const userConfig = config[username]
+  const userConfig = config.users[username]
   if (!userConfig) {
     console.error(`User configuration not found for: ${username}`)
     return []
@@ -50,7 +50,7 @@ export function fetch(
 }
 
 export function getRepos(username: string) {
-  const userConfig = config[username]
+  const userConfig = config.users[username]
   if (!userConfig) {
     console.error(`User configuration not found for: ${username}`)
     return []

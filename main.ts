@@ -3,9 +3,9 @@ import { saveActivity, saveRepository } from './db.ts'
 import { config } from './config.ts'
 
 const username = process.argv[2]
-if (username === '--help' || !username || !config[username]) {
+if (username === '--help' || !username || !config.users[username]) {
   console.log(`Usage: node main.ts <username>`)
-  console.log(`Available users: ${Object.keys(config).join(', ')}`)
+  console.log(`Available users: ${Object.keys(config.users).join(', ')}`)
   process.exit(0)
 }
 

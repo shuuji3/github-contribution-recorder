@@ -1,8 +1,27 @@
-type Config = Record<string, { sinceDate: string, maxRepos: number }>;
+export interface UserConfig {
+  sinceDate: string
+  maxRepos: number
+}
 
-export const config: Config = {
-  'your-github-username': {
-    sinceDate: '2026-01-01', // ISO date string (YYYY-MM-DD), empty for no limit
-    maxRepos: 50,      // 0 for no limit
+export interface RecordAuthorConfig {
+  name: string
+  email: string
+}
+
+export interface AppConfig {
+  users: Record<string, UserConfig>
+  recordAuthor: RecordAuthorConfig
+}
+
+export const config: AppConfig = {
+  users: {
+    'your-github-username': {
+      sinceDate: '2026-01-01', // ISO date string (YYYY-MM-DD), empty for no limit
+      maxRepos: 50, // 0 for no limit
+    },
   },
+  recordAuthor: {
+    name: 'Your Name',
+    email: 'your-email@example.com'
+  }
 };
