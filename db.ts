@@ -13,6 +13,8 @@ db.exec(`
     repo_id TEXT NOT NULL,
     type TEXT NOT NULL,
     created_at TEXT NOT NULL,
+    username TEXT,
+    html_url TEXT,
     raw_data TEXT NOT NULL,
     FOREIGN KEY(repo_id) REFERENCES repositories(id)
   );
@@ -23,11 +25,13 @@ export function saveActivity(
   type: string,
   activity: any,
   id: string,
-  createdAt: string
+  createdAt: string,
+  username: string,
+  htmlUrl: string
 ) {
   db.prepare(
-    'INSERT OR REPLACE INTO activities (id, repo_id, type, created_at, raw_data) VALUES (?, ?, ?, ?, ?)'
-  ).run(id, repoId, type, createdAt, JSON.stringify(activity))
+    'INSERT OR REPLACE INTO activities (id, repo_id, type, created_at, username, html_url, raw_data) VALUES (?, ?, ?, ?, ?, ?, ?)'
+  ).run(id, repoId, type, createdAt, username, htmlUrl, JSON.stringify(activity))
 }
 
 export function saveRepository(id: string, fullName: string) {
