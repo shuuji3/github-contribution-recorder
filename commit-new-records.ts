@@ -12,7 +12,6 @@ const untrackedFiles = execSync('git -C records ls-files --others --exclude-stan
   .filter((f) => f.endsWith('.json'))
 
 for (const file of untrackedFiles) {
-  const fullPath = path.join('records', file)
   const filename = path.basename(file)
 
   // filename format: YYYY-MM-DD-HHmmss-repo-type-slug.json
