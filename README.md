@@ -1,4 +1,4 @@
-# 📹 GitHub Contribution Recorder
+# 📹 github-contribution-recorder
 
 A tool to record GitHub activities (commits, issues, PRs, comments) into a local SQLite database.
 
